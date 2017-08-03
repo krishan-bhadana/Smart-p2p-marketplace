@@ -1,5 +1,5 @@
 from django import forms
-from models import UserModel, PostModel, LikeModel, CommentModel
+from models import UserModel, PostModel, LikeModel, CommentModel, CategoryModel
 
 CATEGORY = (
     ('LAP', 'laptop'),
@@ -37,3 +37,9 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = CommentModel
         fields = ['comment_text', 'post']
+
+class CategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = CategoryModel
+        fields=['category']

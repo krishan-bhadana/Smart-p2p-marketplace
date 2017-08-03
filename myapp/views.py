@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from forms import SignUpForm, LoginForm, PostForm, LikeForm, CommentForm
-from models import UserModel, SessionToken, PostModel, LikeModel, CommentModel
+from forms import SignUpForm, LoginForm, PostForm, LikeForm, CommentForm, CategoryForm
+from models import UserModel, SessionToken, PostModel, LikeModel, CommentModel, CategoryModel
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import timedelta
 from django.utils import timezone
@@ -13,6 +13,7 @@ from imgurpython import ImgurClient
 client_id = str('9bfedc15f2e6afe')
 client_secret = str('704830f11469f79b0bbfa2feba976d96c095e2fe')
 currentuser = None
+category = None
 
 def signup_view(request):
     if request.method == "POST":
@@ -93,15 +94,67 @@ def post_view(request):
 
 def feed_view(request):
     global currentuser
+    global category
     user = check_validation(request)
+    #form = CategoryForm(request.POST)
     if user:
-        posts = PostModel.objects.all().order_by('created_on')
-        for post in posts:
-            existing_like = LikeModel.objects.filter(post_id=post.id, user=user).first()
-            if existing_like:
-                post.has_liked = True
-        print currentuser
-        return render(request, 'feed.html', {'posts': posts},{'currentuser':currentuser})
+        if category == 'MOB':
+            category = 'LAP'
+            # posts = PostModel.objects.all().order_by('created_on')
+            posts = PostModel.objects.all().filter(category='LAP')
+            for post in posts:
+                existing_like = LikeModel.objects.filter(post_id=post.id, user=user).first()
+                if existing_like:
+                    post.has_liked = True
+            print currentuser
+            return render(request, 'feed.html', {'posts': posts}, {'currentuser': currentuser})
+
+        elif category == 'LAP':
+            category = 'CAR'
+            # posts = PostModel.objects.all().order_by('created_on')
+            posts = PostModel.objects.all().filter(category='CAR')
+            for post in posts:
+                existing_like = LikeModel.objects.filter(post_id=post.id, user=user).first()
+                if existing_like:
+                    post.has_liked = True
+            print currentuser
+            return render(request, 'feed.html', {'posts': posts}, {'currentuser': currentuser})
+
+        elif category == 'CAR':
+            category = 'BIKE'
+            # posts = PostModel.objects.all().order_by('created_on')
+            posts = PostModel.objects.all().filter(category='BIKE')
+            for post in posts:
+                existing_like = LikeModel.objects.filter(post_id=post.id, user=user).first()
+                if existing_like:
+                    post.has_liked = True
+            print currentuser
+            return render(request, 'feed.html', {'posts': posts}, {'currentuser': currentuser})
+
+        elif category == 'BIKE':
+            category = 'MOB'
+            # posts = PostModel.objects.all().order_by('created_on')
+            posts = PostModel.objects.all().filter(category='MOB')
+            for post in posts:
+                existing_like = LikeModel.objects.filter(post_id=post.id, user=user).first()
+                if existing_like:
+                    post.has_liked = True
+            print currentuser
+            return render(request, 'feed.html', {'posts': posts}, {'currentuser': currentuser})
+
+        else:
+            category = 'MOB'
+            # posts = PostModel.objects.all().order_by('created_on')
+            posts = PostModel.objects.all().filter(category='MOB')
+            for post in posts:
+                existing_like = LikeModel.objects.filter(post_id=post.id, user=user).first()
+                if existing_like:
+                    post.has_liked = True
+            print currentuser
+            return render(request, 'feed.html', {'posts': posts}, {'currentuser': currentuser})
+
+
+
     else:
 
         return redirect('/login/')

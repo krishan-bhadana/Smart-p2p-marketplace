@@ -15,6 +15,14 @@
 </head>
 <u>
 <h1><b>( <a href="../../login/">LOGOUT ?</a> )</b></h1>
+
+ <div>
+      <form method="POST" action="/feed/">
+                {% csrf_token %}
+                <input type="submit" class="btn-default btn" value="C H A N G E   C A T E G O R Y">
+      </form>
+ </div>
+
 <center>
     <form method="post" action="/post/">
         {% csrf_token %}
@@ -24,7 +32,7 @@
 
     {% for post in posts %}
 
-
+        <h2>C A T E G O R Y ({{ post.category }})</h2>
         <h3> Posted by: {{ post.user.username }} </h3>
         <p>[{{ post.created_on }}]</p>
         <img style="display:inline-block; width:350px; height:300px;"

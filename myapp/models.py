@@ -58,3 +58,6 @@ class CommentModel(models.Model):
 	comment_text = models.IntegerField(default=0)
 	created_on = models.DateTimeField(auto_now_add=True)
 	updated_on = models.DateTimeField(auto_now=True)
+
+class CategoryModel(models.Model):
+	category = models.CharField(max_length=5)
