@@ -5,14 +5,12 @@ from django.contrib.auth.hashers import make_password, check_password
 from datetime import timedelta
 from django.utils import timezone
 from instaclone.settings import BASE_DIR
-
+from clarifai.rest import ClarifaiApp
 from imgurpython import ImgurClient
 
+client_id = str('9bfedc15f2e6afe')                   #for imgur
+client_secret = str('704830f11469f79b0bbfa2feba976d96c095e2fe')    #for imgur
 
-# Create your views here.
-client_id = str('9bfedc15f2e6afe')
-client_secret = str('704830f11469f79b0bbfa2feba976d96c095e2fe')
-currentuser = None
 category = None
 
 def signup_view(request):
